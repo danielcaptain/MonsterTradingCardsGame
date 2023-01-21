@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "SWE1.MessageServer.Core/1.0.0": {
+        "runtime": {
+          "SWE1.MessageServer.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SWE1.MessageServer.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

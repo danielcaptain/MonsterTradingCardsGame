@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\SWE1.MessageServer",
+    "\\SWE1.MessageServer.Core",
+    "\\SWE1.MessageServer.Core\\Routing",
+    "\\SWE1.MessageServer\\API",
+    "\\SWE1.MessageServer\\API\\RouteCommands",
+    "\\SWE1.MessageServer\\DAL",
+    "\\SWE1.MessageServer\\Models"
+  ],
+  "SelectedNode": "\\SWE1.MessageServer\\Program.cs",
+  "PreviewInSolutionExplorer": false
+}
