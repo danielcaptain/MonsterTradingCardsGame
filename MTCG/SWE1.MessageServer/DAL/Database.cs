@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWE1.MonsterTradingCardsGame.DAL
+namespace MonsterTradingCardsGame.DAL
 {
     internal class Database
     {

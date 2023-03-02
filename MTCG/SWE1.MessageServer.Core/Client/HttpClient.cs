@@ -1,13 +1,13 @@
-﻿using SWE1.MonsterTradingCardsGame.Core.Request;
+﻿using MonsterTradingCardsGame.Core.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using HttpMethod = SWE1.MonsterTradingCardsGame.Core.Request.HttpMethod;
+using HttpMethod = MonsterTradingCardsGame.Core.Request.HttpMethod;
 
-namespace SWE1.MonsterTradingCardsGame.Core.Client
+namespace MonsterTradingCardsGame.Core.Client
 {
     public class HttpClient : IClient
     {

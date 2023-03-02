@@ -1,13 +1,13 @@
-﻿using SWE1.MonsterTradingCardsGame.Core.Response;
-using SWE1.MonsterTradingCardsGame.Core.Routing;
-using SWE1.MonsterTradingCardsGame.Models;
+﻿using MonsterTradingCardsGame.Core.Response;
+using MonsterTradingCardsGame.Core.Routing;
+using MonsterTradingCardsGame.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWE1.MonsterTradingCardsGame.API.RouteCommands
+namespace MonsterTradingCardsGame.API.RouteCommands
 {
     internal abstract class AuthenticatedRouteCommand : IRouteCommand
     {

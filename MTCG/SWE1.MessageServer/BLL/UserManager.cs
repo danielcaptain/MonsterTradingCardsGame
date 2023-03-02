@@ -1,12 +1,12 @@
-﻿using SWE1.MonsterTradingCardsGame.DAL;
-using SWE1.MonsterTradingCardsGame.Models;
+﻿using MonsterTradingCardsGame.DAL;
+using MonsterTradingCardsGame.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWE1.MonsterTradingCardsGame.BLL
+namespace MonsterTradingCardsGame.BLL
 {
     public class UserManager : IUserManager
     {
@@ -24,7 +24,7 @@ namespace SWE1.MonsterTradingCardsGame.BLL
 
         public void RegisterUser(Credentials credentials)
         {
-            var user = new User(credentials.Username, credentials.Password);
+            var user = new User(credentials.Username, credentials.Password, 20, "", "", "");
             if (_userDao.InsertUser(user) == false)
             {
                 throw new DuplicateUserException();

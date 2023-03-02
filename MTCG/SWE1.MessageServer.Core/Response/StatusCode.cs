@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWE1.MonsterTradingCardsGame.Core.Response
+namespace MonsterTradingCardsGame.Core.Response
 {
     public enum StatusCode
     {

@@ -1,7 +1,7 @@
-﻿using SWE1.MonsterTradingCardsGame.DAL;
-using SWE1.MonsterTradingCardsGame.Models;
+﻿using MonsterTradingCardsGame.DAL;
+using MonsterTradingCardsGame.Models;
 
-namespace SWE1.MonsterTradingCardsGame.BLL
+namespace MonsterTradingCardsGame.BLL
 {
     public class MessageManager : IMessageManager
     {

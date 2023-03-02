@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
-using SWE1.MonsterTradingCardsGame.API.RouteCommands.Messages;
-using SWE1.MonsterTradingCardsGame.API.RouteCommands.Users;
-using SWE1.MonsterTradingCardsGame.BLL;
-using SWE1.MonsterTradingCardsGame.Core.Request;
-using SWE1.MonsterTradingCardsGame.Core.Routing;
-using SWE1.MonsterTradingCardsGame.Models;
-using HttpMethod = SWE1.MonsterTradingCardsGame.Core.Request.HttpMethod;
+using MonsterTradingCardsGame.API.RouteCommands.Messages;
+using MonsterTradingCardsGame.API.RouteCommands.Users;
+using MonsterTradingCardsGame.BLL;
+using MonsterTradingCardsGame.Core.Request;
+using MonsterTradingCardsGame.Core.Routing;
+using MonsterTradingCardsGame.Models;
+using HttpMethod = MonsterTradingCardsGame.Core.Request.HttpMethod;
 
-namespace SWE1.MonsterTradingCardsGame.API.RouteCommands
+namespace MonsterTradingCardsGame.API.RouteCommands
 {
     internal class Router : IRouter
     {

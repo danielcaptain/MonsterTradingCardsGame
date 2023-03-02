@@ -1,6 +1,6 @@
-﻿using SWE1.MonsterTradingCardsGame.Models;
+﻿using MonsterTradingCardsGame.Models;
 
-namespace SWE1.MonsterTradingCardsGame.DAL
+namespace MonsterTradingCardsGame.DAL
 {
     internal class InMemoryMessageDao : IMessageDao
     {

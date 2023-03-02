@@ -1,4 +1,4 @@
-﻿namespace SWE1.MonsterTradingCardsGame.Core.Server
+﻿namespace MonsterTradingCardsGame.Core.Server
 {
     public interface IServer
     {

@@ -1,7 +1,7 @@
-﻿using SWE1.MonsterTradingCardsGame.Core.Request;
-using HttpMethod = SWE1.MonsterTradingCardsGame.Core.Request.HttpMethod;
+﻿using MonsterTradingCardsGame.Core.Request;
+using HttpMethod = MonsterTradingCardsGame.Core.Request.HttpMethod;
 
-namespace SWE1.MonsterTradingCardsGame.API.RouteCommands
+namespace MonsterTradingCardsGame.API.RouteCommands
 {
     internal interface IRouteParser
     {

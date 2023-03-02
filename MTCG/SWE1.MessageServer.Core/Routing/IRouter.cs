@@ -1,6 +1,6 @@
-﻿using SWE1.MonsterTradingCardsGame.Core.Request;
+﻿using MonsterTradingCardsGame.Core.Request;
 
-namespace SWE1.MonsterTradingCardsGame.Core.Routing
+namespace MonsterTradingCardsGame.Core.Routing
 {
     public interface IRouter
     {

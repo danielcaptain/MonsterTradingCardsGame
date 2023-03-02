@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWE1.MonsterTradingCardsGame.Models
+namespace MonsterTradingCardsGame.Models
 {
     abstract class Card
     {
         public Guid Id { get; private set; }
+        public string Name { get; private set; }
 
         public enum ElementEnum
         {
@@ -18,11 +19,12 @@ namespace SWE1.MonsterTradingCardsGame.Models
         }
 
         public ElementEnum Element { get; private set; }
-        public int Damage { get; private set; }
+        public double Damage { get; private set; }
 
-        public Card(Guid id, int damage, ElementEnum element) 
+        public Card(Guid id, string name, double damage, ElementEnum element) 
         {
             Id = id;
+            Name = name;
             Damage = damage;
             Element = element;
         }

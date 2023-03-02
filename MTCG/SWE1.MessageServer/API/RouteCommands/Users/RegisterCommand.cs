@@ -1,9 +1,9 @@
-﻿using SWE1.MonsterTradingCardsGame.BLL;
-using SWE1.MonsterTradingCardsGame.Core.Response;
-using SWE1.MonsterTradingCardsGame.Core.Routing;
-using SWE1.MonsterTradingCardsGame.Models;
+﻿using MonsterTradingCardsGame.BLL;
+using MonsterTradingCardsGame.Core.Response;
+using MonsterTradingCardsGame.Core.Routing;
+using MonsterTradingCardsGame.Models;
 
-namespace SWE1.MonsterTradingCardsGame.API.RouteCommands.Users
+namespace MonsterTradingCardsGame.API.RouteCommands.Users
 {
     internal class RegisterCommand : IRouteCommand
     {

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWE1.MonsterTradingCardsGame.Core.Routing
+namespace MonsterTradingCardsGame.Core.Routing
 {
     public class RouteNotAuthenticatedException : Exception
     {

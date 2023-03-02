@@ -5,7 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWE1.MonsterTradingCardsGame.Core.Request
+namespace MonsterTradingCardsGame.Core.Request
 {
     public enum HttpMethod
     {

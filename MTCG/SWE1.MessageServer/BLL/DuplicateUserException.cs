@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace SWE1.MonsterTradingCardsGame.BLL
+namespace MonsterTradingCardsGame.BLL
 {
     [Serializable]
     public class DuplicateUserException : Exception

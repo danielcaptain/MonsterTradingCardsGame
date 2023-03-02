@@ -1,10 +1,10 @@
-﻿using SWE1.MonsterTradingCardsGame.Core.Response;
-using SWE1.MonsterTradingCardsGame.Core.Routing;
+﻿using MonsterTradingCardsGame.Core.Response;
+using MonsterTradingCardsGame.Core.Routing;
 using System.Net;
 using System.Net.Sockets;
-using HttpClient = SWE1.MonsterTradingCardsGame.Core.Client.HttpClient;
+using HttpClient = MonsterTradingCardsGame.Core.Client.HttpClient;
 
-namespace SWE1.MonsterTradingCardsGame.Core.Server
+namespace MonsterTradingCardsGame.Core.Server
 {
     public class HttpServer : IServer
     {

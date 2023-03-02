@@ -1,4 +1,4 @@
-﻿using SWE1.MonsterTradingCardsGame.Models;
+﻿using MonsterTradingCardsGame.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace MonsterTradingCardsGame.Models
             Troll
         }
         public MonsterEnum Monster { get; private set; }
-        public MonsterCard(Guid id, int damage, ElementEnum element, MonsterEnum monster) : base(id, damage, element)
+        public MonsterCard(Guid id, string name, double damage, ElementEnum element, MonsterEnum monster) : base(id, name, damage, element)
         {
             Monster = monster;
         }

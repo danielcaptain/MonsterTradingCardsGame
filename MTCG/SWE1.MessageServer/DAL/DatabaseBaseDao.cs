@@ -1,6 +1,6 @@
 ﻿using Npgsql;
 
-namespace SWE1.MonsterTradingCardsGame.DAL
+namespace MonsterTradingCardsGame.DAL
 {
     internal abstract class DatabaseBaseDao
     {

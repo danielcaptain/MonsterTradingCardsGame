@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SWE1.MonsterTradingCardsGame.Core.Request
+namespace MonsterTradingCardsGame.Core.Request
 {
     public class RequestContext
     {

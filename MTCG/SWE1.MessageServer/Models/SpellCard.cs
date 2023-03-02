@@ -1,4 +1,4 @@
-﻿using SWE1.MonsterTradingCardsGame.Models;
+﻿using MonsterTradingCardsGame.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace MonsterTradingCardsGame.Models
 {
     class SpellCard : Card
     {
-        public SpellCard(Guid id, int damage, ElementEnum element) : base(id, damage, element)
+        public SpellCard(Guid id, string name, double damage, ElementEnum element) : base(id, name, damage, element)
         {
         }
     }

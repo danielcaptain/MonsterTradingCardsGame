@@ -1,4 +1,4 @@
-﻿using SWE1.MonsterTradingCardsGame.Models;
+﻿using MonsterTradingCardsGame.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

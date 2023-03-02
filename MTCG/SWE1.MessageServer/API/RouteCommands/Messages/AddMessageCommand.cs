@@ -1,8 +1,8 @@
-﻿using SWE1.MonsterTradingCardsGame.BLL;
-using SWE1.MonsterTradingCardsGame.Core.Response;
-using SWE1.MonsterTradingCardsGame.Models;
+﻿using MonsterTradingCardsGame.BLL;
+using MonsterTradingCardsGame.Core.Response;
+using MonsterTradingCardsGame.Models;
 
-namespace SWE1.MonsterTradingCardsGame.API.RouteCommands.Messages
+namespace MonsterTradingCardsGame.API.RouteCommands.Messages
 {
     internal class AddMessageCommand : AuthenticatedRouteCommand
     {

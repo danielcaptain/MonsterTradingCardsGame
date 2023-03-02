@@ -1,5 +1,5 @@
 ﻿using Npgsql;
-using SWE1.MonsterTradingCardsGame.Models;
+using MonsterTradingCardsGame.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWE1.MonsterTradingCardsGame.DAL
+namespace MonsterTradingCardsGame.DAL
 {
     internal class DatabaseUserDao : DatabaseBaseDao, IUserDao
     {
@@ -89,7 +89,7 @@ namespace SWE1.MonsterTradingCardsGame.DAL
 
         private User ReadUser(IDataRecord record)
         {
-            return new User(Convert.ToString(record["username"])!, Convert.ToString(record["password"])!);
+            return new User(Convert.ToString(record["username"])!, Convert.ToString(record["password"])!, 20, "", "", "");
         }
     }
 }

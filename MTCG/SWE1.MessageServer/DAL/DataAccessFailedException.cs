@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace SWE1.MonsterTradingCardsGame.DAL
+namespace MonsterTradingCardsGame.DAL
 {
     [Serializable]
     internal class DataAccessFailedException : Exception

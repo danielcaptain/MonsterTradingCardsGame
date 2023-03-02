@@ -1,4 +1,4 @@
-﻿namespace SWE1.MonsterTradingCardsGame.Core.Response
+﻿namespace MonsterTradingCardsGame.Core.Response
 {
     public class Response
     {

@@ -1,11 +1,11 @@
-﻿using SWE1.MonsterTradingCardsGame.Models;
+﻿using MonsterTradingCardsGame.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWE1.MonsterTradingCardsGame.DAL
+namespace MonsterTradingCardsGame.DAL
 {
     public class InMemoryUserDao : IUserDao
     {

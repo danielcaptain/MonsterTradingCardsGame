@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace SWE1.MonsterTradingCardsGame.API.RouteCommands
+namespace MonsterTradingCardsGame.API.RouteCommands
 {
     internal class IdRouteParser : IRouteParser
     {

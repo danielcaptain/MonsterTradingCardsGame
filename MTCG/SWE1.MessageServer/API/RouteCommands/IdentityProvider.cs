@@ -1,8 +1,8 @@
-﻿using SWE1.MonsterTradingCardsGame.BLL;
-using SWE1.MonsterTradingCardsGame.Core.Request;
-using SWE1.MonsterTradingCardsGame.Models;
+﻿using MonsterTradingCardsGame.BLL;
+using MonsterTradingCardsGame.Core.Request;
+using MonsterTradingCardsGame.Models;
 
-namespace SWE1.MonsterTradingCardsGame.API.RouteCommands
+namespace MonsterTradingCardsGame.API.RouteCommands
 {
     internal class IdentityProvider
     {

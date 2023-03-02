@@ -1,4 +1,4 @@
-﻿namespace SWE1.MonsterTradingCardsGame.Models
+﻿namespace MonsterTradingCardsGame.Models
 {
     public class Credentials
     {
