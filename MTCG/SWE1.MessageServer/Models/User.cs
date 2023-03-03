@@ -1,20 +1,39 @@
-﻿namespace MonsterTradingCardsGame.Models
+﻿using System.Drawing;
+using System.Text.Json.Serialization;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace MonsterTradingCardsGame.Models
 {
     public class User
     {
-        public string Username { get; private set; }
-        public string Password { get; private set; }
-        public int Coins { get; private set; }
-        public string Aliasname { get; private set; }
-        public string Bio { get; private set; }
-        public string Image { get; private set; }
-        public string Token { get; private set; }
+        [JsonPropertyName("Username")]
+        public string Username { get; set; }
+
+        [JsonPropertyName("Password")]
+        public string Password { get; set; }
+        public int Coins { get; set; }
+        public string Aliasname { get; set; }
+        public string Bio { get; set; }
+        public string Image { get; set; }
+        public string Token { get; set; }
 
         public static string CreateToken(string username)
         {
             return $"{username}-mtcgToken";
         }
-        
+
+        public User()
+        {
+            Username = "";
+            Password = "";
+            Coins = 0;
+            Aliasname = "";
+            Bio = "";
+            Image = "";
+            Token = "";
+        }
+
+
         public User(string username, string password, int coins, string aliasname, string bio, string image)
         {
             Username = username;

@@ -9,14 +9,6 @@ using System.Net;
 
 DB db = new DB();
 db.Connect();
-db.CreateUser("test1", "tetstestets");
+Server server = new Server(db);
 
-var userDao = new InMemoryUserDao();
-var userManager = new UserManager(userDao);
-
-var messageDao = new InMemoryMessageDao();
-var messageManager = new MessageManager(messageDao);
-
-var router = new Router(userManager, messageManager);
-var server = new HttpServer(IPAddress.Any, 10001, router);
 server.Start();
