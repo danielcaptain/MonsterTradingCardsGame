@@ -161,6 +161,8 @@ namespace MonsterTradingCardsGame
                                image = @image
                            WHERE name = @name;";
             using NpgsqlCommand sqlcmd = new(cmd, con);
+
+            Console.WriteLine("IN DER DATENBANK:" + jsonuser.Aliasname + " " + jsonuser.Image);
             sqlcmd.Parameters.AddWithValue("@alias", jsonuser.Aliasname);
             sqlcmd.Parameters.AddWithValue("@bio", jsonuser.Bio);
             sqlcmd.Parameters.AddWithValue("@image", jsonuser.Image);
@@ -171,18 +173,16 @@ namespace MonsterTradingCardsGame
 
         // Adds a monstercard object into the DB
         private bool AddMonsterCard(MonsterCard monsterCard)
-        {        
+        {
             string cmd = @"INSERT INTO card 
-                                (id, type, name, damage, element, ismonster)
+                                (id, type, name, damage, ismonster)
                             VALUES
-                                (@id, @type, @name, @damage, @element, TRUE);";
-
+                                (@id, @type, @name, @damage, TRUE);";
             using NpgsqlCommand sqlcmd = new(cmd, con);
             sqlcmd.Parameters.AddWithValue("@id", monsterCard.Id);
             sqlcmd.Parameters.AddWithValue("@type", (int)monsterCard.Monster);
             sqlcmd.Parameters.AddWithValue("@name", monsterCard.Name);
             sqlcmd.Parameters.AddWithValue("@damage", monsterCard.Damage);
-            sqlcmd.Parameters.AddWithValue("@element", (int)monsterCard.Element);
 
             return sqlcmd.ExecuteNonQuery() > 0;
         }
@@ -191,14 +191,12 @@ namespace MonsterTradingCardsGame
         private bool AddSpellCard(SpellCard spellCard)
         {
             string cmd = @"INSERT INTO card 
-                                (id, type, name, damage, element, ismonster)
+                                (id, type, name, damage, ismonster)
                             VALUES
-                                (@id, @type, @name, @damage, @element, FALSE);";
+                                (@id, NULL, @name, @damage, FALSE);";
 
             using NpgsqlCommand sqlcmd = new(cmd, con);
             sqlcmd.Parameters.AddWithValue("@id", spellCard.Id);
-            sqlcmd.Parameters.AddWithValue("@type", "NULL");
-            sqlcmd.Parameters.AddWithValue("@element", (int)spellCard.Element);
             sqlcmd.Parameters.AddWithValue("@name", spellCard.Name);
             sqlcmd.Parameters.AddWithValue("@damage", spellCard.Damage);
 
@@ -238,7 +236,7 @@ namespace MonsterTradingCardsGame
             return (!failure && sqlcmd.ExecuteNonQuery() > 0);
         }
 
-        // Returns  cards which already exist in the DB and have the same GUID as the provided list of cards
+        // Returns cards which already exist in the DB and have the same GUID as the provided list of cards
         public List<Guid>? CardsExistAlready(List<Card> package)
         {
             List<Guid> ids = package.Select(m => m.Id).ToList();
@@ -378,7 +376,7 @@ namespace MonsterTradingCardsGame
         public List<Card> ListStackOrDeck(string username, string source = "stack")
         {
             List<Card> cards = new();
-            string cmd = "SELECT stack.card, card.type, card.name, card.damage, card.element, card.ismonster " +
+            string cmd = "SELECT stack.card, card.type, card.name, card.damage, card.ismonster " +
                          "FROM stack " +
                          "INNER JOIN card ON card.id=stack.card " +
                          "WHERE stack.player = @player";
@@ -401,17 +399,18 @@ namespace MonsterTradingCardsGame
                     {
                         if (reader.GetBoolean(4))
                         {
-                            MonsterCard card = new MonsterCard(reader.GetGuid(0), reader.GetString(2), reader.GetDouble(3), (ElementEnum)reader.GetInt32(4), (MonsterEnum)reader.GetInt32(1));
+                            MonsterCard card = new MonsterCard(reader.GetGuid(0), reader.GetString(2), reader.GetDouble(3), Card.CheckElementEnum(reader.GetString(2)), (MonsterEnum)reader.GetInt32(1));
                             cards.Add(card);
                         }
                         else
                         {
-                            SpellCard card = new SpellCard(reader.GetGuid(0), reader.GetString(2), reader.GetDouble(3), (ElementEnum)reader.GetInt32(4));
+                            SpellCard card = new SpellCard(reader.GetGuid(0), reader.GetString(2), reader.GetDouble(3), Card.CheckElementEnum(reader.GetString(2)));
                             cards.Add(card);
                         }
                     }
                 }
             }
+            Console.WriteLine();
             return cards;
         }
 

@@ -1,11 +1,14 @@
 ﻿using MonsterTradingCardsGame.Models;
+//using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -67,11 +70,19 @@ namespace MonsterTradingCardsGame
                     {
                         GetDeckFormat(request, tcpClient);
                     }
+                    if (request.Route.StartsWith("/users/"))
+                    {                        
+                        GetUsers(request, tcpClient);
+                    }
                     break;
                 case "PUT":
                     if (request.Route == "/deck")
                     {
                         PutDeck(request, tcpClient);
+                    }
+                    if (request.Route.StartsWith("/users/"))
+                    {
+                        PutUsers(request, tcpClient);
                     }
                     break;
             }
@@ -114,7 +125,7 @@ namespace MonsterTradingCardsGame
                 return;
             } else
             {
-                Respond.SendResponse(tcpClient, HttpStatusCode.OK, "User successfully created");
+                Respond.SendResponse(tcpClient, HttpStatusCode.Created, "User successfully created");
             }
         }
 
@@ -131,7 +142,7 @@ namespace MonsterTradingCardsGame
 
             if (!database.VerifyLogin(user.Username, user.Password))
             {
-                Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "Invalid username/password provided");
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Invalid username/password provided");
             }
             else
             {
@@ -140,32 +151,85 @@ namespace MonsterTradingCardsGame
         }
 
         public void PostPackages(Request request, TcpClient tcpClient)
-        {      
+        {
+
+            object objt = request.ParseJson();
+            List<Card> listOfCards = (List<Card>)objt;
+
+            if (!User.CheckIfTokenIsMissingOrInvalid(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+            
+
+            if (!database.CheckToken(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+            
+
             if (request.Token == "admin-mtcgToken")
-            {               
-                /*
-                // body 
-                if (!database.CreatePackage(request.Body)) // Muss Liste werden
+            {
+                List<Guid> alreadyInUsedGuids = new List<Guid>();
+                alreadyInUsedGuids = database.CardsExistAlready(listOfCards);
+                if (alreadyInUsedGuids != null)
+                {
+                    Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "At least one card in the packages already exists");
+                } 
+
+                if (!database.CreatePackage(listOfCards)) 
                 {
                     Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "Something happend");
                     return;
                 }
                 else
                 {
-                    Respond.SendResponse(tcpClient, HttpStatusCode.OK, "Package and cards successfully created");
+                    Respond.SendResponse(tcpClient, HttpStatusCode.Created, "Package and cards successfully created");
                 }    
-                */
+                
+                
             }
             else
             {
-                Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "Provided user is not admin");
+                Respond.SendResponse(tcpClient, HttpStatusCode.Forbidden, "Provided user is not admin");
                 return;
             }           
         }
 
         public void PostTransactionsPackages(Request request, TcpClient tcpClient)
         {
+            User user = user = database.GetUserInformation(request.Token);
 
+            if (user.Coins < 5)
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Forbidden, "Not enough money for buying a card package");
+                return;
+            }
+
+            if (!User.CheckIfTokenIsMissingOrInvalid(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+
+            if (!database.CheckToken(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+
+            if (database.GetPackage(user) == false)
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.NotFound, "No card package available for buying");
+                return;
+            } 
+            else
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.OK, "A package has been successfully bought");
+                return;
+            }
         }
 
         public void PostBattle(Request request, TcpClient tcpClient)
@@ -174,24 +238,207 @@ namespace MonsterTradingCardsGame
         }
 
         public void GetCards(Request request, TcpClient tcpClient)
-        {
+        {           
+            if (!User.CheckIfTokenIsMissingOrInvalid(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+            if (!database.CheckToken(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+                    
+            User user = user = database.GetUserInformation(request.Token);
 
+            List<Card> allUserCards = new List<Card>();
+            allUserCards = database.ListStackOrDeck(user.Username, "stack");
+
+            if (allUserCards.Count == 0)
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.NoContent, "The request was fine, but the user doesn't have any cards");
+            } else
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.OK, "The user has cards, the response contains these" + "\n" + JsonSerializer.Serialize(allUserCards));
+            }
         }
 
         public void GetDeck(Request request, TcpClient tcpClient)
         {
+            if (!User.CheckIfTokenIsMissingOrInvalid(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+            if (!database.CheckToken(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+
+            User user = user = database.GetUserInformation(request.Token);
+
+            List<Card> allUserCards = new List<Card>();
+            allUserCards = database.ListStackOrDeck(user.Username, "deck");
+
+            if (allUserCards.Count == 0)
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.NoContent, "The request was fine, but the deck doesn't have any cards");
+            }
+            else
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.OK, "The deck has cards, the response contains these" + "\n" + JsonSerializer.Serialize(allUserCards));
+            }
 
         }
 
         public void GetDeckFormat(Request request, TcpClient tcpClient)
         {
+            if (!User.CheckIfTokenIsMissingOrInvalid(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+            if (!database.CheckToken(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
 
+            User user = user = database.GetUserInformation(request.Token);
+
+            List<Card> allUserCards = new List<Card>();
+            allUserCards = database.ListStackOrDeck(user.Username, "deck");
+
+            StringBuilder sb = new StringBuilder();
+            foreach (Card card in allUserCards)
+            {
+                sb.Append(card.ToString() + "\n");
+            }
+
+            if (allUserCards.Count == 0)
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.NoContent, "The request was fine, but the deck doesn't have any cards");
+            }
+            else
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.OK, "The deck has cards, the response contains these" + "\n" + sb.ToString());
+            }
         }
 
+        public void GetUsers(Request request, TcpClient tcpClient)
+        {
+            User user = user = database.GetUserInformation(request.Token);
+
+            if (!User.CheckIfTokenIsMissingOrInvalid(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+
+            if (!database.CheckToken(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+
+            string usernameRoute = request.Route.Replace("/users/", "");
+            string usernameRouteToken = usernameRoute + "-mtcgToken";
+
+            if (request.Token == "admin-mtcgToken" || request.Token == usernameRouteToken)
+            {
+                if (database.UserExists(user.Username) != true)
+                {
+                    Respond.SendResponse(tcpClient, HttpStatusCode.NotFound, "User not found.");
+                    return;
+                }
+
+                string jsonString = $"{{\n  \"Name\": \"{user.Aliasname}\",\n  \"Bio\": \"{user.Bio}\",\n  \"Image\": \"{user.Image}\"\n}}";
+
+                Respond.SendResponse(tcpClient, HttpStatusCode.OK, "Data successfully retrieved" + "\n" + jsonString);
+            }
+            else
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Forbidden, "Provided user is not admin or matching user");
+                return;
+            }
+        }
+   
         public void PutDeck(Request request, TcpClient tcpClient)
         {
+            List<Guid> deckIds = new List<Guid>();
+            User user = user = database.GetUserInformation(request.Token);
 
+            if (!User.CheckIfTokenIsMissingOrInvalid(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+            if (!database.CheckToken(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+
+            string rebuildBody = request.Body.Trim('[').Trim(']');
+            string[] guids = rebuildBody.Split(", ");
+            foreach (string guid in guids)
+            { 
+                deckIds.Add(Guid.Parse(guid.Trim('"')));
+            }
+            if (deckIds.Count != 4)
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.BadRequest, "The provided deck did not include the required amount of cards");
+                return;
+            }
+
+            // Check At least one of the provided cards does not belong to the user or is not available.
+            database.AddCardsToDeck(deckIds, user.Username);
+            Respond.SendResponse(tcpClient, HttpStatusCode.OK, "The deck has been successfully configured");
+            return;
         }
 
+        public void PutUsers(Request request, TcpClient tcpClient)
+        {
+            User user = user = database.GetUserInformation(request.Token);
+
+            if (!User.CheckIfTokenIsMissingOrInvalid(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+
+            if (!database.CheckToken(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+
+            string usernameRoute = request.Route.Replace("/users/", "");
+            string usernameRouteToken = usernameRoute + "-mtcgToken";
+
+            if (request.Token == "admin-mtcgToken" || request.Token == usernameRouteToken)
+            {
+                if (database.UserExists(user.Username) != true)
+                {
+                    Respond.SendResponse(tcpClient, HttpStatusCode.NotFound, "User not found.");
+                    return;
+                }
+
+                var userJsonDeserialized = JsonSerializer.Deserialize<User>(request.Body); // Vielleicht ohne userHelp
+
+                User userHelp = new User(usernameRoute, "", 0, userJsonDeserialized.Aliasname, userJsonDeserialized.Bio, userJsonDeserialized.Image);
+
+                database.EditUser(userHelp, userHelp.Username);
+
+                Respond.SendResponse(tcpClient, HttpStatusCode.OK, "User sucessfully updated.");
+            }
+            else
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Forbidden, "Provided user is not admin or matching user");
+                return;
+            }   
+        }
     }
 }

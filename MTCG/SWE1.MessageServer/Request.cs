@@ -16,6 +16,8 @@ namespace MonsterTradingCardsGame
         public string Route = string.Empty;
         public string Token = string.Empty;
         public string MethodeType = string.Empty;
+
+
         
         public void ParseRequest(string request)
         {
@@ -27,6 +29,8 @@ namespace MonsterTradingCardsGame
             string[] requestPart = requestLine[0].Split(' ');
             MethodeType = requestPart[0];
             Route = requestPart[1];
+            if (requestLine[4].Contains("Authorization"))
+                Token = requestLine[4].Split(' ')[2];
             if (requestLine[5].Contains("Authorization"))
                 Token = requestLine[5].Split(' ')[2];
 
@@ -51,14 +55,29 @@ namespace MonsterTradingCardsGame
 
                 case "/packages":
                     List<Card> cards = JsonSerializer.Deserialize<List<Card>>(Body);
+                    List<Card> modifiedCards = new List<Card>();
+
                     foreach (Card card in cards)
                     {
-                        //card.SetType();
+                        if (card.Name.ToLower().Contains("spell"))
+                        {
+                            SpellCard spellCard = new SpellCard(card.Id, card.Name, card.Damage, Card.CheckElementEnum(card.Name));
+                            modifiedCards.Add(spellCard);
+
+                        }
+                        else
+                        {
+                            MonsterCard monsterCard = new MonsterCard(card.Id, card.Name, card.Damage, Card.CheckElementEnum(card.Name), MonsterCard.CheckMonsterEnum(card.Name));
+                            modifiedCards.Add(monsterCard);
+                        }
                     }
+
+                    cards = modifiedCards;
                     return cards;
 
                 case "/deck":
                     List<Guid> cardguids = JsonSerializer.Deserialize<List<Guid>>(Body);
+
                     return cardguids;
          
                 default:

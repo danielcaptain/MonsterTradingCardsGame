@@ -12,14 +12,34 @@ namespace MonsterTradingCardsGame.Models
         [JsonPropertyName("Password")]
         public string Password { get; set; }
         public int Coins { get; set; }
+
+        [JsonPropertyName("Name")]
         public string Aliasname { get; set; }
+
+        [JsonPropertyName("Bio")]
         public string Bio { get; set; }
+
+        [JsonPropertyName("Image")]
         public string Image { get; set; }
         public string Token { get; set; }
 
         public static string CreateToken(string username)
         {
             return $"{username}-mtcgToken";
+        }
+
+        public static bool CheckIfTokenIsMissingOrInvalid(string token)
+        {
+            if (token == "")
+            {
+                return false;
+            }
+            if (token.Contains("-mtcgToken") == false)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public User()

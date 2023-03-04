@@ -12,5 +12,9 @@ namespace MonsterTradingCardsGame.Models
         public SpellCard(Guid id, string name, double damage, ElementEnum element) : base(id, name, damage, element)
         {
         }
+        public override string ToString()
+        {
+            return "ID: " + this.Id.ToString() + " Name: " + this.Name + " Damage: " + this.Damage.ToString() + " Element: " + this.Element.ToString();
+        }
     }
 }

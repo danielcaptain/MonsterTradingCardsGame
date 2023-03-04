@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MonsterTradingCardsGame.Models
 {
-    public abstract class Card
+    public class Card
     {
-        public Guid Id { get; private set; }
-        public string Name { get; private set; }
+        [JsonPropertyName("Id")]
+        public Guid Id { get; set; }
+
+        [JsonPropertyName("Name")]
+        public string Name { get; set; }
 
         public enum ElementEnum
         {
@@ -17,10 +22,19 @@ namespace MonsterTradingCardsGame.Models
             Water,
             Normal
         }
+        public ElementEnum Element { get; set; }
 
-        public ElementEnum Element { get; private set; }
-        public double Damage { get; private set; }
+        [JsonPropertyName("Damage")]
+        public double Damage { get; set; }
 
+        public Card()
+        {
+            Id = Guid.Empty;
+            Name = "";
+            Damage = 0.0;
+            Element = ElementEnum.Normal;
+        }
+       
         public Card(Guid id, string name, double damage, ElementEnum element) 
         {
             Id = id;
@@ -28,5 +42,18 @@ namespace MonsterTradingCardsGame.Models
             Damage = damage;
             Element = element;
         }
+
+        public static ElementEnum CheckElementEnum(string checkName)
+        {
+            if (checkName.ToLower().Contains("water"))
+            {
+                return ElementEnum.Water;
+            } else if (checkName.ToLower().Contains("fire"))
+            {
+                return ElementEnum.Fire;
+            } 
+
+            return ElementEnum.Normal;
+        }        
     }
 }

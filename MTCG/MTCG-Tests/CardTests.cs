@@ -1,4 +1,5 @@
 ﻿using MonsterTradingCardsGame.Models;
+using static MonsterTradingCardsGame.Models.Card;
 
 namespace MTCG_Tests
 {
@@ -52,6 +53,28 @@ namespace MTCG_Tests
             Assert.AreEqual(name, card.Name);
             Assert.AreEqual(damage, card.Damage);
             Assert.AreEqual(element, card.Element);
+        }
+
+        [TestMethod]
+        public void CheckElementEnum_WithWater_ReturnsWater()
+        {
+            var card = new Card();
+            var checkName = "Water Element";
+
+            var result = card.CheckElementEnum(checkName);
+
+            Assert.AreEqual(ElementEnum.Water, result);
+        }
+
+        [TestMethod]
+        public void CheckElementEnum_WithFire_ReturnsFire()
+        {
+            var card = new Card();
+            var checkName = "Fire Element";
+
+            var result = card.CheckElementEnum(checkName);
+
+            Assert.AreEqual(ElementEnum.Fire, result);
         }
     }
 }

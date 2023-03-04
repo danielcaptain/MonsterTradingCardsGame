@@ -36,5 +36,37 @@ namespace MTCG_Tests
 
             Assert.IsTrue(testToken == "RandomUser-mtcgToken");
         }
+
+        [TestMethod]
+        public void CheckIfTokenIsMissingOrInvalidTrueTest()
+        {
+            string testToken1 = "RandomUser-mtcgToken";
+            bool testBool1 = User.CheckIfTokenIsMissingOrInvalid(testToken1);
+            Assert.IsTrue(testBool1);
+        }
+
+        public void CheckIfTokenIsMissingOrInvalidAdminTest()
+        {
+            string testToken3 = "admin-mtcgToken";
+            bool testBool3 = User.CheckIfTokenIsMissingOrInvalid(testToken3);
+            Assert.IsTrue(testBool3);
+        }
+
+        [TestMethod]
+        public void CheckIfTokenIsMissingOrInvalidFailTest()
+        {
+            string testToken2 = "RandomUser-Token";
+            bool testBool2 = User.CheckIfTokenIsMissingOrInvalid(testToken2);
+            Assert.IsFalse(testBool2);
+        }
+
+
+        [TestMethod]
+        public void CheckIfTokenIsMissingOrInvalidEmptyTest()
+        {
+            string testToken2 = "";
+            bool testBool2 = User.CheckIfTokenIsMissingOrInvalid(testToken2);
+            Assert.IsFalse(testBool2);
+        }
     }
 }
