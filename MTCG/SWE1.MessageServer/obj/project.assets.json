@@ -63,16 +63,6 @@
         "build": {
           "buildTransitive/netcoreapp3.1/_._": {}
         }
-      },
-      "SWE1.MessageServer.Core/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "compile": {
-          "bin/placeholder/SWE1.MessageServer.Core.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SWE1.MessageServer.Core.dll": {}
-        }
       }
     }
   },
@@ -208,18 +198,12 @@
         "system.runtime.compilerservices.unsafe.nuspec",
         "useSharedDesignerContext.txt"
       ]
-    },
-    "SWE1.MessageServer.Core/1.0.0": {
-      "type": "project",
-      "path": "../SWE1.MessageServer.Core/SWE1.MessageServer.Core.csproj",
-      "msbuildProject": "../SWE1.MessageServer.Core/SWE1.MessageServer.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "Newtonsoft.Json >= 13.0.2",
-      "Npgsql >= 7.0.1",
-      "SWE1.MessageServer.Core >= 1.0.0"
+      "Npgsql >= 7.0.1"
     ]
   },
   "packageFolders": {
@@ -255,11 +239,7 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {
-            "D:\\FH S3\\SWEN\\MonsterTradingCardsGame\\MonsterTradingCardsGame\\MTCG\\SWE1.MessageServer.Core\\SWE1.MessageServer.Core.csproj": {
-              "projectPath": "D:\\FH S3\\SWEN\\MonsterTradingCardsGame\\MonsterTradingCardsGame\\MTCG\\SWE1.MessageServer.Core\\SWE1.MessageServer.Core.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

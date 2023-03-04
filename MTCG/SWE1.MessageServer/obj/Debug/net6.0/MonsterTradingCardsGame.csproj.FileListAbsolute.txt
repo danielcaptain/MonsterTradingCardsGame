@@ -11,8 +11,6 @@ D:\FH S3\SWEN\MonsterTradingCardsGame\MonsterTradingCardsGame\MTCG\SWE1.MessageS
 D:\FH S3\SWEN\MonsterTradingCardsGame\MonsterTradingCardsGame\MTCG\SWE1.MessageServer\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
 D:\FH S3\SWEN\MonsterTradingCardsGame\MonsterTradingCardsGame\MTCG\SWE1.MessageServer\bin\Debug\net6.0\Newtonsoft.Json.dll
 D:\FH S3\SWEN\MonsterTradingCardsGame\MonsterTradingCardsGame\MTCG\SWE1.MessageServer\bin\Debug\net6.0\Npgsql.dll
-D:\FH S3\SWEN\MonsterTradingCardsGame\MonsterTradingCardsGame\MTCG\SWE1.MessageServer\bin\Debug\net6.0\SWE1.MessageServer.Core.dll
-D:\FH S3\SWEN\MonsterTradingCardsGame\MonsterTradingCardsGame\MTCG\SWE1.MessageServer\bin\Debug\net6.0\SWE1.MessageServer.Core.pdb
 D:\FH S3\SWEN\MonsterTradingCardsGame\MonsterTradingCardsGame\MTCG\SWE1.MessageServer\obj\Debug\net6.0\MonsterTradingCardsGame.csproj.AssemblyReference.cache
 D:\FH S3\SWEN\MonsterTradingCardsGame\MonsterTradingCardsGame\MTCG\SWE1.MessageServer\obj\Debug\net6.0\MonsterTradingCardsGame.GeneratedMSBuildEditorConfig.editorconfig
 D:\FH S3\SWEN\MonsterTradingCardsGame\MonsterTradingCardsGame\MTCG\SWE1.MessageServer\obj\Debug\net6.0\MonsterTradingCardsGame.AssemblyInfoInputs.cache

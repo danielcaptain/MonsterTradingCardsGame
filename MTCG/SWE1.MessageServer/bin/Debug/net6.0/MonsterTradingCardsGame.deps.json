@@ -9,8 +9,7 @@
       "MonsterTradingCardsGame/1.0.0": {
         "dependencies": {
           "Newtonsoft.Json": "13.0.2",
-          "Npgsql": "7.0.1",
-          "SWE1.MessageServer.Core": "1.0.0"
+          "Npgsql": "7.0.1"
         },
         "runtime": {
           "MonsterTradingCardsGame.dll": {}
@@ -44,12 +43,7 @@
           }
         }
       },
-      "System.Runtime.CompilerServices.Unsafe/6.0.0": {},
-      "SWE1.MessageServer.Core/1.0.0": {
-        "runtime": {
-          "SWE1.MessageServer.Core.dll": {}
-        }
-      }
+      "System.Runtime.CompilerServices.Unsafe/6.0.0": {}
     }
   },
   "libraries": {
@@ -85,11 +79,6 @@
       "sha512": "sha512-/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg==",
       "path": "system.runtime.compilerservices.unsafe/6.0.0",
       "hashPath": "system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
-    },
-    "SWE1.MessageServer.Core/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     }
   }
 }

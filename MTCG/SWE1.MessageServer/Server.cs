@@ -1,6 +1,4 @@
-﻿using MonsterTradingCardsGame.Core.Client;
-using MonsterTradingCardsGame.Core.Response;
-using MonsterTradingCardsGame.Models;
+﻿using MonsterTradingCardsGame.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -98,11 +96,17 @@ namespace MonsterTradingCardsGame
             object objt = request.ParseJson();
             if (objt is not User)
             {
-                Respond.SendResponse(tcpClient, HttpStatusCode.InternalServerError, "Something went wrong while parsing the Request.");
+                Respond.SendResponse(tcpClient, HttpStatusCode.InternalServerError, "Something went wrong while parsing the Request");
                 return;
             }
 
             User user = (User)objt;
+
+            if (database.UserExists(user.Username))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "The Username: " + user.Username + " is already in use");
+                return;
+            }
 
             if (!database.CreateUser(user.Username, user.Password))
             {

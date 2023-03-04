@@ -12,8 +12,4 @@
     <PackageReference Include="Npgsql" Version="7.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SWE1.MessageServer.Core\SWE1.MessageServer.Core.csproj" />
-  </ItemGroup>
-
 </Project>

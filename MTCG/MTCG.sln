@@ -5,8 +5,6 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonsterTradingCardsGame", "SWE1.MessageServer\MonsterTradingCardsGame.csproj", "{7BE5663D-0ED1-454C-B71A-A04356C701AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SWE1.MessageServer.Core", "SWE1.MessageServer.Core\SWE1.MessageServer.Core.csproj", "{6EF27484-A62F-4AE0-830E-A006525007E5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{7BE5663D-0ED1-454C-B71A-A04356C701AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BE5663D-0ED1-454C-B71A-A04356C701AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BE5663D-0ED1-454C-B71A-A04356C701AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6EF27484-A62F-4AE0-830E-A006525007E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6EF27484-A62F-4AE0-830E-A006525007E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6EF27484-A62F-4AE0-830E-A006525007E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6EF27484-A62F-4AE0-830E-A006525007E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

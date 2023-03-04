@@ -46,7 +46,6 @@ namespace MonsterTradingCardsGame
             {
                 case "/sessions":
                 case "/users":
-                    Console.WriteLine(Body);
                     User user = JsonSerializer.Deserialize<User>(Body);
                     return user;
 
