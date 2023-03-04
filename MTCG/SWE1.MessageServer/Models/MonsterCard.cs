@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MonsterTradingCardsGame.Models
 {
-    class MonsterCard : Card
+    public class MonsterCard : Card
     {
         public enum MonsterEnum
         {
@@ -20,7 +20,7 @@ namespace MonsterTradingCardsGame.Models
             Elve,
             Troll
         }
-        public MonsterEnum Monster { get; private set; }
+        public MonsterEnum Monster { get; set; }
         public MonsterCard(Guid id, string name, double damage, ElementEnum element, MonsterEnum monster) : base(id, name, damage, element)
         {
             Monster = monster;

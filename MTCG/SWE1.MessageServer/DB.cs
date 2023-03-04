@@ -8,7 +8,7 @@ using static MonsterTradingCardsGame.Models.MonsterCard;
 
 namespace MonsterTradingCardsGame
 {
-    internal class DB
+    public class DB
     {
         private readonly NpgsqlConnection con;
         private static readonly object _lock = new();
@@ -229,6 +229,7 @@ namespace MonsterTradingCardsGame
                                 (default, @c0id, @c1id, @c2id, @c3id, @c4id);";
             using NpgsqlCommand sqlcmd = new(cmd, con);
 
+            // einzeln statt loop
             for (int i = 0; i < 5; i++)
             {
                 sqlcmd.Parameters.AddWithValue("@c" + i + "id",

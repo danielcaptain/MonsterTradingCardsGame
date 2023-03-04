@@ -39,39 +39,39 @@ namespace MonsterTradingCardsGame
                     }
                     if (request.Route == "/sessions")
                     {
-
+                        PostSessions(request, tcpClient);
                     }
                     if (request.Route == "/packages")
                     {
-
+                        PostPackages(request, tcpClient);
                     }
                     if (request.Route == "/transactions/packages")
                     {
-
+                        PostTransactionsPackages(request, tcpClient);
                     }
                     if (request.Route == "/battles")
                     {
-
+                        PostBattle(request, tcpClient);
                     }
                     break;
                 case "GET":
                     if (request.Route == "/cards")
                     {
-
+                        GetCards(request, tcpClient);
                     }
                     if (request.Route == "/deck")
                     {
-
+                        GetDeck(request, tcpClient);
                     }
                     if (request.Route == "/deck?format=plain")
                     {
-
+                        GetDeckFormat(request, tcpClient);
                     }
                     break;
                 case "PUT":
                     if (request.Route == "/deck")
                     {
-
+                        PutDeck(request, tcpClient);
                     }
                     break;
             }
@@ -104,17 +104,94 @@ namespace MonsterTradingCardsGame
 
             if (database.UserExists(user.Username))
             {
-                Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "The Username: " + user.Username + " is already in use");
+                Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "User with same username already registered");
                 return;
             }
 
             if (!database.CreateUser(user.Username, user.Password))
             {
                 Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "Something happend");
+                return;
             } else
             {
-                Respond.SendResponse(tcpClient, HttpStatusCode.OK, "User was created");
+                Respond.SendResponse(tcpClient, HttpStatusCode.OK, "User successfully created");
             }
         }
+
+        public void PostSessions(Request request, TcpClient tcpClient)
+        {
+            object objt = request.ParseJson();
+            if (objt is not User)
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.InternalServerError, "Something went wrong while parsing the Request");
+                return;
+            }
+
+            User user = (User)objt;
+
+            if (!database.VerifyLogin(user.Username, user.Password))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "Invalid username/password provided");
+            }
+            else
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.OK, "User login successful" + user.Token);
+            }
+        }
+
+        public void PostPackages(Request request, TcpClient tcpClient)
+        {      
+            if (request.Token == "admin-mtcgToken")
+            {               
+                /*
+                // body 
+                if (!database.CreatePackage(request.Body)) // Muss Liste werden
+                {
+                    Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "Something happend");
+                    return;
+                }
+                else
+                {
+                    Respond.SendResponse(tcpClient, HttpStatusCode.OK, "Package and cards successfully created");
+                }    
+                */
+            }
+            else
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "Provided user is not admin");
+                return;
+            }           
+        }
+
+        public void PostTransactionsPackages(Request request, TcpClient tcpClient)
+        {
+
+        }
+
+        public void PostBattle(Request request, TcpClient tcpClient)
+        {
+
+        }
+
+        public void GetCards(Request request, TcpClient tcpClient)
+        {
+
+        }
+
+        public void GetDeck(Request request, TcpClient tcpClient)
+        {
+
+        }
+
+        public void GetDeckFormat(Request request, TcpClient tcpClient)
+        {
+
+        }
+
+        public void PutDeck(Request request, TcpClient tcpClient)
+        {
+
+        }
+
     }
 }

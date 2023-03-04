@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MonsterTradingCardsGame.Models
 {
-    class Battle
+    public class Battle
     {
         public static void ExecuteBattle(User user1, User user2)
         {

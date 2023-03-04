@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MonsterTradingCardsGame.Models
 {
-    class SpellCard : Card
+    public class SpellCard : Card
     {
         public SpellCard(Guid id, string name, double damage, ElementEnum element) : base(id, name, damage, element)
         {
