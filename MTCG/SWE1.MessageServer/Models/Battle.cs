@@ -9,9 +9,13 @@ namespace MonsterTradingCardsGame.Models
 {
     public class Battle
     {
-        public static void ExecuteBattle(User user1, User user2)
+        public static string ExecuteBattle(User user1, User user2)
         {
+            BattleLog log = new BattleLog();
 
+
+
+            return log.ReturnLog();
         }
     }
 }

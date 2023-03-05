@@ -1,0 +1,107 @@
+Design of the MonsterTradingCardsGame:
+- Datenbank: 
+Created mit der Vorlage in Moodle ("PostgreSQL Quickstart"): 
+Befehl: CREATE DATABASE mtcg
+Danach ein "sql-File" erstellt und in das Command Fenster kopiert/eingefügt -> File "DBSetup.sql" im Ordner "MonsterTradingCardsGame"
+-> nach den Schritten ist die Datenbank eingerichtet
+Wie man im File "DBSetup.sql" sehen kann, habe ich 4 Tables die ich create/drop (cardpackage, stack, player, card)
+Zusätzlich verwende ich die Extension "pgcrypto" (erledigt mir meine Passwort Verschlüsselung) und die Extension "uuid-ossp" für meine card ID's
+card Attribute: id(uuid), type(integer, darf null sein), name(text), damage(real), isMonster(boolean, für den Unterschied zwischen Monster/Spellcard)
+player Attribute: id(integer), name(text), coins(integer), token(text), password(text), alias(text), bio(text), image(text)
+stack Attribute: id(integer), player(name, reference auf player), card(uuid, reference auf card), partOfDeck(boolean)
+cardpackage Attribute: id(integer), 4x (c-card, 0-4, id) mit reference auf card
+
+- Models:
+User.cs: Wie aus der Angabe/Curl/Swagger habe ich die Attribute Username, Password, Coins, ALiasname, Bio, Image und Token. Ich habe einen Constructor wo ich den Token bekomme, einen wo ich mir mit
+seinem Username mit der Methode CreateToken() einen generiere und einen "Empty-Constructor" für den Jsonserializer. Zusätzlich habe ich die Methode CheckIfTokenIsMissingOrInvalid, die mir
+ohne DB abfrage checkt ob der eingehende Token leer oder nicht den Anforderungen entspricht.
+Card.cs: Hat basic Attribute einer Karte mit Id, Name, Element und Damage. Auch wieder einen Constructor wo ich alle Daten bekomme und einen "Empty-Constructor" für den Jsonserializer. Zusätzlich die static Methode CheckElementEnum um aus dem Namen das richtige Element zu bekommen.
+MonsterCard.cs: Erbt die Attribute von Card und bekommst noch Monster(Monster Typ) dazu. Eine Methode um aus dem Namen den Monster Typen zu bekommen (CheckMonsterEnum) und eine eigene ToString() Methode.
+SpellCard.cs: Erbt die Attribute von Crad und bekommt eine eigene ToString Methode dazu.
+
+- DB.cs:
+Hier baue ich meine Connection/schließe diese auch wieder. Alle Datenbank Zugriffe von CreateUser() bis zu AddCardsToDeck() sind in diesem File gesammelt und können über eine Instanz von DB aufgerufen werden.
+Der connection string (string cs = "Host=localhost;Username=postgres;Password=admin;Database=mtcg";) setzt sich aus dem Host, Username, Password und der Database zusammen. 
+In meinem Fall war es beim erstellen der Datenbank der User postgres mit dem Password admin. Der Name meiner DB war mtcg.
+
+- Server:
+In meinem Server baue ich die connection zu meinem Client (mit Threads) auf, die IP und PORT sind wie im Script 127.0.0.1 und 10001.
+Zusätzlich sind im Server auch alle meine Möglichen Routen und daraus die folgenden Methoden wo gearbeitet wird (Datenbank zugriff oder ähnliches).
+Im Request.cs baue ich mir aus dem Http-Request meinen eigen mit dem ich normal arbeiten kann und der mir die Daten direkt passend parsed. 
+In meinem Fall hatte ich den MethodeType(GET, PUT, POST), den User-Token, die gesamte Route und den Body für die Daten. Zusätzlich parsed mir diese Klasse auch die eingehenden JSON's und liefert mir eine Liste zurück mit der ich arbeiten kann.
+In meinem Response.cs baue ich mir die Response die wieder zurück an den Client geht. In der Response habe ich passenden HTTP-Code, die Message/Daten.
+
+- BattleLog.cs:
+Ganz einfache Klasse um mir einen sauberen BattleLog zu bauen und mich nicht mitten im Battle darum zu kümmern. Jede runde wird an den BattleLog mit LogRound() geschickt und am Ende des Battles mit ReturnLog() angefordert.
+
+- Lobby.cs:
+Eine Klasse Lobby mit einer Liste die als unsere Lobby dient. In der Route Battle, kann man einfach abfragen mit der Methode CheckCountOfLobby() wie viele sich in der Lobby gerade befinden
+und je nach dem eine Battle starten oder noch auf einen Player warten. Mit AddUserToLobby() füge ich einen Player hinzu und mit RemoveUserFromLobby() kann ich ihn löschen.
+Joint man der Lobby und eine Player wartet bereits auf ein Battle kann ich mittels GetFirstUserInLobby() diesen Player bekommen und das Battle starten.
+
+- Battle.cs:
+Die Methode ExecuteBattle wird in der Route Battle aufgerufen, sobald 2 Player in der Lobby sind bzw. entfernt worden sind.
+Eine neue Instanz von BattleLog wird erstellt und am Ende des Battles an die "Route" zurückgegen damit diese wieder einen Response abgeben kann.
+
+
+
+Lessons Learned:
+- Zeitmanagment: nie wieder eine Semesterprojekt so knapp vor der Deadline beginnen und nicht stetig weiter zu bauen, auch wenn man denkt man kann gut mit C# das Projekt nicht unterschätzen
+- C# programmieren, nach 6 Monaten Bundesheer war das C# programmieren sehr eingerostet und das Projekt hat mir sehr geholfen mich wieder dafür zu begeistern
+- Datenbank: aufsetzen mit PSQL, Tables createn, Datenbank befüllen mit C#, mit c# aus der Datenbank bekommen und diese verarbeiten
+- Projektmanagment: Wie gehe ich sowas überhaupt an und wie bin ich am effektivsten - hat mir sehr viel beigebracht
+- Serverprogrammierung, einen eigenen Server erstellen und darauf aufzubauen - hab ich bisher noch nicht gemacht gehabt und daraus sind unglaublich viele Learnings enstanden + Verständniss für manche Dinge
+- ChatGPT: Unglaublich wichtig für mich gewesen um in kurzer Zeit so viel Code zu erschaffen - bei Fragen mit dem Code Copy-Pasten und fast immer gut bis brauchbare Lösungen bekommen
+- Testing/Debugging: Seien es die Unit Tests die mir viel geholfen haben aber auch das Debugging, war viel Arbeit aber auch sehr viele Learnings
+- VS 2022/.NET 6: Das erste mal die neuen Features von VS 2022 und .NET 6 zu sehen - der Untschied zu VS 2019 ist einfach toll und sehr hilfreich für mich gewesen
+Zusammengefasst war das Zeitmanagment eine Katasthrophe, aber ich konnte aus meinen Fehlern lernen. Das ganze Projekt hat mir extrem geholfen neue Sachen zu lernen und auch diese Zukünftig anzuwenden.
+Wichtig ist auch sich nicht auf gewisse Bugs oder Features zu stark zu fokussieren und dadurch in eine unproduktive-Loop zu kommen.
+
+Describtion of Unique Feature:
+Eine Karte bekommt random in einem Battle, die Fähigkeit eine andere Karte zu direkt zu vernichten (eine Art "oneshot")
+
+Unit Testing and Decisions of the Unit Tests:
+- UserTests:
+UserEmtpyConstructorTest - ob der Empty-Constructor für den Jsonserializer funktioniert
+UserConstructorWithoutTokenTest - ob der Constructor ohne Token eingabe mit der CreateToken() funktioniert
+UserConstructorWithTokenTest - ob der Constructor mit Token eingabe funktioniert
+CreateTokenTest - ob die Methode CreateToken() auch funktioniert
+CheckIfTokenIsMissingOrInvalidTrueTest - prüft ob die Methode CheckIfTokenIsMissingOrInvalid() mit einem RandomUser Token funktioniert
+CheckIfTokenIsMissingOrInvalidAdminTest - prüft ob die Methode CheckIfTokenIsMissingOrInvalid() mit dem AdminUser Token funktioniert
+CheckIfTokenIsMissingOrInvalidFailTest - prüft ob die Methode CheckIfTokenIsMissingOrInvalid() mit einem falschen RandomUser Token funktioniert
+CheckIfTokenIsMissingOrInvalidEmptyTest - prüft ob die Methode CheckIfTokenIsMissingOrInvalid() auch mit einem leeren Token funktioniert
+- CardTests (alle Tests von Card.cs/MonsterCard.cs/SpellCard.cs): 
+MonsterCardConstructorSetsPropertiesTest - Einfacher Test für den Constructor von MonsterCard
+MonsterCard_SetOnceTest - Test für den Constructor der nachträglich geändert wird
+SpellCardConstructorSetsPropertiesTest - Einfacher Test für den Constructor von SpellCard
+CheckElementEnum_WithWater_ReturnsWater - Überprüfen der Methode CheckElementEnum() ob auch der richtige Typ gefunden wird (in dem Fall Water)
+CheckElementEnum_WithFire_ReturnsFire - Überprüfen der Methode CheckElementEnum() ob auch der richtige Typ gefunden wird (in dem Fall Fire)
+CheckMonsterEnum_WithGoblin - Überprüfen der Methode CheckMonsterEnum() ob auch der richtige Typ gefunden wird (in dem Fall Goblin)
+CheckMonsterEnum_WithDragon - Überprüfen der Methode CheckMonsterEnum() ob auch der richtige Typ gefunden wird (in dem Fall Dragon)
+CheckMonsterEnum_WithTroll - Überprüfen der Methode CheckMonsterEnum() ob auch der richtige Typ gefunden wird (in dem Fall Troll)
+- BattleLogTests:
+LogRound_AddsRoundToLog - Überprüfen wenn eine einzelne Runde in den Log geadded wird
+ReturnLog_ReturnsFullLog - Überprüfen wenn mehrere Runden in den Log hinzugefügt werden
+- LobbyTests:
+AddUserToLobby_WhenCalled_AddsUserToLobby - Added einen User mit AddUserToLobby() und checkt mit GetFirstUserInLobby() ob es auch gleich derjenige auch ist
+RemoveUserFromLobby_WhenCalled_RemovesUserFromLobby - Added zwei User mit AddUserToLobby(), Removed dann den ersten User mit RemoveUserFromLobby() und überprüft ob der auch korrekt entfernt worden ist.
+ClearLobby_RemovesAllUsersFromLobby - Überprüft ob die Methode ClearLobby() mit 3 verschiedenen User auch alle Removed
+
+Tracked Time:
+Immer dem Schema: "Datum - Stundenanzahl"
+Stundenanzahl bezieht sich auf die reinen "Netto-Stunden"
+15.12.2022 - 2 Stunden
+20.01.2023 - 1 Stunde
+21.01.2023 - 2 Stunden
+20.02.2023 - 3 Stunden
+22.02.2023 - 2 Stunden
+01.03.2023 - 2 Stunden
+02.03.2023 - 1 Stunde
+03.03.2023 - 5 Stunden
+04.03.2023 - 9 Stunden
+05.03.2023 - 7 Stunden
+GESAMT: 34 Stunden
+
+
+Link to GIT:
+https://github.com/danielcaptain/MonsterTradingCardsGame.git

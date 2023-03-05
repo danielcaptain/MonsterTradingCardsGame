@@ -1,5 +1,4 @@
 ﻿using MonsterTradingCardsGame.Models;
-//using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -235,7 +234,38 @@ namespace MonsterTradingCardsGame
 
         public void PostBattle(Request request, TcpClient tcpClient)
         {
+            if (!User.CheckIfTokenIsMissingOrInvalid(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
 
+            if (!database.CheckToken(request.Token))
+            {
+                Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
+                return;
+            }
+
+            User user = user = database.GetUserInformation(request.Token);
+
+            Lobby.AddUserToLobby(user);
+            if (Lobby.CheckCountOfLobby() < 2)
+            {
+                Console.WriteLine("Waiting for another Player to join the Battle Lobby");
+                while (Lobby.CheckCountOfLobby() < 2)
+                {
+                    
+                }
+                Console.WriteLine("Another Player joined the Battle Lobby - Battle starts!");
+            }
+            else
+            {
+                User firstUserToBattle = Lobby.GetFirstUserInLobby();
+                Lobby.RemoveUserFromLobby(firstUserToBattle);
+                string battleLog = Battle.ExecuteBattle(user, firstUserToBattle);
+                Respond.SendResponse(tcpClient, HttpStatusCode.OK, "The battle has been carried out successfully.");
+                return;
+            }   
         }
 
         public void GetCards(Request request, TcpClient tcpClient)
