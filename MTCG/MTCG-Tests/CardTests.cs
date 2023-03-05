@@ -58,10 +58,9 @@ namespace MTCG_Tests
         [TestMethod]
         public void CheckElementEnum_WithWater_ReturnsWater()
         {
-            var card = new Card();
             var checkName = "Water Element";
 
-            var result = card.CheckElementEnum(checkName);
+            var result = Card.CheckElementEnum(checkName);
 
             Assert.AreEqual(ElementEnum.Water, result);
         }
@@ -69,12 +68,42 @@ namespace MTCG_Tests
         [TestMethod]
         public void CheckElementEnum_WithFire_ReturnsFire()
         {
-            var card = new Card();
             var checkName = "Fire Element";
 
-            var result = card.CheckElementEnum(checkName);
+            var result = Card.CheckElementEnum(checkName);
 
             Assert.AreEqual(ElementEnum.Fire, result);
+        }
+
+        [TestMethod]
+        public void CheckMonsterEnum_WithGoblin()
+        {
+            var checkName = "WaterGoblin";
+
+            var result = MonsterCard.CheckMonsterEnum(checkName);
+
+            Assert.AreEqual(MonsterCard.MonsterEnum.Goblin, result);
+        }
+
+
+        [TestMethod]
+        public void CheckMonsterEnum_WithDragon()
+        {
+            var checkName = "FireDragon";
+
+            var result = MonsterCard.CheckMonsterEnum(checkName);
+
+            Assert.AreEqual(MonsterCard.MonsterEnum.Dragon, result);
+        }
+
+        [TestMethod]
+        public void CheckMonsterEnum_WithTroll()
+        {
+            var checkName = "NormalTroll";
+
+            var result = MonsterCard.CheckMonsterEnum(checkName);
+
+            Assert.AreEqual(MonsterCard.MonsterEnum.Troll, result);
         }
     }
 }

@@ -27,7 +27,6 @@ namespace MonsterTradingCardsGame
             }
             catch (Exception)
             {
-                Console.WriteLine("ÄNDERN");
                 System.Environment.Exit(-1);
             }
         }
@@ -86,7 +85,7 @@ namespace MonsterTradingCardsGame
                 return reader.HasRows;
             }
         }
-        
+
         // Returns a User with his Values from DB
         public virtual User? GetUserInformation(string token)
         {
@@ -214,7 +213,8 @@ namespace MonsterTradingCardsGame
                 if (card is MonsterCard monstercard)
                 {
                     AddMonsterCard(monstercard);
-                }else if (card is SpellCard spellcard)
+                }
+                else if (card is SpellCard spellcard)
                 {
                     AddSpellCard(spellcard);
                 }
@@ -231,7 +231,7 @@ namespace MonsterTradingCardsGame
             for (int i = 0; i < 5; i++)
             {
                 sqlcmd.Parameters.AddWithValue("@c" + i + "id",
-                    ids[i]); 
+                    ids[i]);
             }
             return (!failure && sqlcmd.ExecuteNonQuery() > 0);
         }
@@ -244,7 +244,7 @@ namespace MonsterTradingCardsGame
 
             for (int i = 0; i < ids.Count; i++)
             {
-                sb.Append("id = @guid" + i + " OR ");       
+                sb.Append("id = @guid" + i + " OR ");
             }
 
             sb.Remove(sb.Length - 4, 4); //Removes the last 4 characters (Space,O,R,Space): " OR "

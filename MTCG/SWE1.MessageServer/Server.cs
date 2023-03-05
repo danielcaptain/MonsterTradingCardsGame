@@ -18,13 +18,13 @@ namespace MonsterTradingCardsGame
     {
         public DB database;
 
-        public Server(DB db) 
+        public Server(DB db)
         {
             database = db;
         }
 
         public void ProcessClient(TcpClient tcpClient)
-        {         
+        {
             Request request = new();
             NetworkStream stream = tcpClient.GetStream();
 
@@ -33,7 +33,7 @@ namespace MonsterTradingCardsGame
 
             request.ParseRequest(Encoding.ASCII.GetString(requestData, 0, bytesRead));
 
-            switch(request.MethodeType)
+            switch (request.MethodeType)
             {
                 case "POST":
                     if (request.Route == "/users")
@@ -71,7 +71,7 @@ namespace MonsterTradingCardsGame
                         GetDeckFormat(request, tcpClient);
                     }
                     if (request.Route.StartsWith("/users/"))
-                    {                        
+                    {
                         GetUsers(request, tcpClient);
                     }
                     break;
@@ -94,7 +94,7 @@ namespace MonsterTradingCardsGame
             TcpListener tcpListener = new TcpListener(ip, 10001);
             tcpListener.Start();
 
-            while(true)
+            while (true)
             {
                 TcpClient tcpClient = tcpListener.AcceptTcpClient();
                 Thread thread = new Thread(() => ProcessClient(tcpClient));
@@ -123,7 +123,8 @@ namespace MonsterTradingCardsGame
             {
                 Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "Something happend");
                 return;
-            } else
+            }
+            else
             {
                 Respond.SendResponse(tcpClient, HttpStatusCode.Created, "User successfully created");
             }
@@ -161,14 +162,14 @@ namespace MonsterTradingCardsGame
                 Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
                 return;
             }
-            
+
 
             if (!database.CheckToken(request.Token))
             {
                 Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
                 return;
             }
-            
+
 
             if (request.Token == "admin-mtcgToken")
             {
@@ -177,9 +178,9 @@ namespace MonsterTradingCardsGame
                 if (alreadyInUsedGuids != null)
                 {
                     Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "At least one card in the packages already exists");
-                } 
+                }
 
-                if (!database.CreatePackage(listOfCards)) 
+                if (!database.CreatePackage(listOfCards))
                 {
                     Respond.SendResponse(tcpClient, HttpStatusCode.Conflict, "Something happend");
                     return;
@@ -187,15 +188,15 @@ namespace MonsterTradingCardsGame
                 else
                 {
                     Respond.SendResponse(tcpClient, HttpStatusCode.Created, "Package and cards successfully created");
-                }    
-                
-                
+                }
+
+
             }
             else
             {
                 Respond.SendResponse(tcpClient, HttpStatusCode.Forbidden, "Provided user is not admin");
                 return;
-            }           
+            }
         }
 
         public void PostTransactionsPackages(Request request, TcpClient tcpClient)
@@ -224,7 +225,7 @@ namespace MonsterTradingCardsGame
             {
                 Respond.SendResponse(tcpClient, HttpStatusCode.NotFound, "No card package available for buying");
                 return;
-            } 
+            }
             else
             {
                 Respond.SendResponse(tcpClient, HttpStatusCode.OK, "A package has been successfully bought");
@@ -238,7 +239,7 @@ namespace MonsterTradingCardsGame
         }
 
         public void GetCards(Request request, TcpClient tcpClient)
-        {           
+        {
             if (!User.CheckIfTokenIsMissingOrInvalid(request.Token))
             {
                 Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
@@ -249,7 +250,7 @@ namespace MonsterTradingCardsGame
                 Respond.SendResponse(tcpClient, HttpStatusCode.Unauthorized, "Access token is missing or invalid");
                 return;
             }
-                    
+
             User user = user = database.GetUserInformation(request.Token);
 
             List<Card> allUserCards = new List<Card>();
@@ -258,7 +259,8 @@ namespace MonsterTradingCardsGame
             if (allUserCards.Count == 0)
             {
                 Respond.SendResponse(tcpClient, HttpStatusCode.NoContent, "The request was fine, but the user doesn't have any cards");
-            } else
+            }
+            else
             {
                 Respond.SendResponse(tcpClient, HttpStatusCode.OK, "The user has cards, the response contains these" + "\n" + JsonSerializer.Serialize(allUserCards));
             }
@@ -364,7 +366,7 @@ namespace MonsterTradingCardsGame
                 return;
             }
         }
-   
+
         public void PutDeck(Request request, TcpClient tcpClient)
         {
             List<Guid> deckIds = new List<Guid>();
@@ -384,7 +386,7 @@ namespace MonsterTradingCardsGame
             string rebuildBody = request.Body.Trim('[').Trim(']');
             string[] guids = rebuildBody.Split(", ");
             foreach (string guid in guids)
-            { 
+            {
                 deckIds.Add(Guid.Parse(guid.Trim('"')));
             }
             if (deckIds.Count != 4)
@@ -438,7 +440,7 @@ namespace MonsterTradingCardsGame
             {
                 Respond.SendResponse(tcpClient, HttpStatusCode.Forbidden, "Provided user is not admin or matching user");
                 return;
-            }   
+            }
         }
     }
 }

@@ -17,14 +17,12 @@ namespace MonsterTradingCardsGame
         public string Token = string.Empty;
         public string MethodeType = string.Empty;
 
-
-        
         public void ParseRequest(string request)
         {
             Body = "";
             request = request.Replace("\r\n", "\n");
 
-            string[] requestLine = request.Split ('\n');
+            string[] requestLine = request.Split('\n');
 
             string[] requestPart = requestLine[0].Split(' ');
             MethodeType = requestPart[0];
@@ -39,8 +37,8 @@ namespace MonsterTradingCardsGame
             {
                 if (bodyFlag)
                     Body += requestLine[i];
-                if (string.IsNullOrEmpty(requestLine[i]))            
-                    bodyFlag = true;                          
+                if (string.IsNullOrEmpty(requestLine[i]))
+                    bodyFlag = true;
             }
         }
 
@@ -71,15 +69,9 @@ namespace MonsterTradingCardsGame
                             modifiedCards.Add(monsterCard);
                         }
                     }
-
                     cards = modifiedCards;
                     return cards;
 
-                case "/deck":
-                    List<Guid> cardguids = JsonSerializer.Deserialize<List<Guid>>(Body);
-
-                    return cardguids;
-         
                 default:
                     break;
             }

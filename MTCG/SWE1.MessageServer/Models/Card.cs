@@ -34,8 +34,8 @@ namespace MonsterTradingCardsGame.Models
             Damage = 0.0;
             Element = ElementEnum.Normal;
         }
-       
-        public Card(Guid id, string name, double damage, ElementEnum element) 
+
+        public Card(Guid id, string name, double damage, ElementEnum element)
         {
             Id = id;
             Name = name;
@@ -48,12 +48,13 @@ namespace MonsterTradingCardsGame.Models
             if (checkName.ToLower().Contains("water"))
             {
                 return ElementEnum.Water;
-            } else if (checkName.ToLower().Contains("fire"))
+            }
+            else if (checkName.ToLower().Contains("fire"))
             {
                 return ElementEnum.Fire;
-            } 
+            }
 
             return ElementEnum.Normal;
-        }        
+        }
     }
 }

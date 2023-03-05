@@ -35,28 +35,35 @@ namespace MonsterTradingCardsGame.Models
             if (checkName.ToLower().Contains("goblin"))
             {
                 return MonsterEnum.Goblin;
-            } else if (checkName.ToLower().Contains("dragon"))
+            }
+            else if (checkName.ToLower().Contains("dragon"))
             {
                 return MonsterEnum.Dragon;
-            } else if (checkName.ToLower().Contains("wizzard"))
+            }
+            else if (checkName.ToLower().Contains("wizzard"))
             {
                 return MonsterEnum.Wizzard;
-            } else if (checkName.ToLower().Contains("ork"))
+            }
+            else if (checkName.ToLower().Contains("ork"))
             {
                 return MonsterEnum.Ork;
-            } else if (checkName.ToLower().Contains("knight"))
+            }
+            else if (checkName.ToLower().Contains("knight"))
             {
                 return MonsterEnum.Knight;
-            } else if (checkName.ToLower().Contains("kraken"))
+            }
+            else if (checkName.ToLower().Contains("kraken"))
             {
                 return MonsterEnum.Kraken;
-            } else if (checkName.ToLower().Contains("elve"))
+            }
+            else if (checkName.ToLower().Contains("elve"))
             {
                 return MonsterEnum.Elve;
-            } else
+            }
+            else
             {
                 return MonsterEnum.Troll;
-            }          
+            }
         }
 
         public override string ToString()

@@ -34,7 +34,7 @@ namespace MonsterTradingCardsGame.Models
             {
                 return false;
             }
-            if (token.Contains("-mtcgToken") == false)
+            if (token.EndsWith("-mtcgToken") == false)
             {
                 return false;
             }
