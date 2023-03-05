@@ -10,20 +10,20 @@ namespace MonsterTradingCardsGame.Models
     {
         private static List<User> battleLobby = new List<User>();
         private static readonly object _lock = new();
-        public Lobby() 
+        public Lobby()
         {
             battleLobby.Clear();
         }
 
         public static void AddUserToLobby(User user)
-        {          
+        {
             lock (_lock)
             {
                 battleLobby.Add(user);
             }
         }
 
-        public static void RemoveUserFromLobby(User user) 
+        public static void RemoveUserFromLobby(User user)
         {
             lock (_lock)
             {
@@ -40,7 +40,7 @@ namespace MonsterTradingCardsGame.Models
         {
             lock (_lock)
             {
-                return battleLobby[0];             
+                return battleLobby[0];
             }
         }
 

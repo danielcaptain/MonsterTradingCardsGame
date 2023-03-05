@@ -42,8 +42,11 @@ Joint man der Lobby und eine Player wartet bereits auf ein Battle kann ich mitte
 - Battle.cs:
 Die Methode ExecuteBattle wird in der Route Battle aufgerufen, sobald 2 Player in der Lobby sind bzw. entfernt worden sind.
 Eine neue Instanz von BattleLog wird erstellt und am Ende des Battles an die "Route" zurückgegen damit diese wieder einen Response abgeben kann.
-
-
+Im Battles selbst bekommt jeder Player eine Liste mit seinem Deck und einen Score zugewiesen.
+Das Battle geht 4 Runden. Eine Runde besteht darin das sich immer eine Karte vom Player1 und eine Karte vom Player2 bekämpfen -> Methode FightCards() -> liefert 0/1.
+Je nach dem wer die Runde gewonnen hat wird die Karte aus seinem Deck entfernt und der Score des Gewinners erhöht.
+Nach den vier Runden wird überprüft wer den Höheren Score hat oder ob es ein unentschieden ist. Je nach dem wird das wieder in den Log geschrieben und am Ende des Battles wird der Log returnd.
+Der returnde Log wird dann wieder als Response in der Battle Route an die zwei Player zurückgegeben.
 
 Lessons Learned:
 - Zeitmanagment: nie wieder eine Semesterprojekt so knapp vor der Deadline beginnen und nicht stetig weiter zu bauen, auch wenn man denkt man kann gut mit C# das Projekt nicht unterschätzen
@@ -102,6 +105,14 @@ Stundenanzahl bezieht sich auf die reinen "Netto-Stunden"
 05.03.2023 - 7 Stunden
 GESAMT: 34 Stunden
 
-
+Nicht implementiert:
+- Stats/ScoreBoard: -3 Punkte
+- Trading: -3 Punkte
+- Battle Logic nicht ganz fertig: -2 Punkte
+- Take-over cards after loss of a round: -2 Punkte
+- Consider specialities in battle-rounds between cards: -1 Punkt
+- ELO calculation: -2
+- Unique Feature: -3
+ 
 Link to GIT:
 https://github.com/danielcaptain/MonsterTradingCardsGame.git

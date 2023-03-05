@@ -254,7 +254,7 @@ namespace MonsterTradingCardsGame
                 Console.WriteLine("Waiting for another Player to join the Battle Lobby");
                 while (Lobby.CheckCountOfLobby() < 2)
                 {
-                    
+
                 }
                 Console.WriteLine("Another Player joined the Battle Lobby - Battle starts!");
             }
@@ -265,7 +265,7 @@ namespace MonsterTradingCardsGame
                 string battleLog = Battle.ExecuteBattle(user, firstUserToBattle);
                 Respond.SendResponse(tcpClient, HttpStatusCode.OK, "The battle has been carried out successfully.");
                 return;
-            }   
+            }
         }
 
         public void GetCards(Request request, TcpClient tcpClient)

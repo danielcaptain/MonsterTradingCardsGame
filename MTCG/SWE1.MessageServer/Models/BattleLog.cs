@@ -10,10 +10,10 @@ namespace MonsterTradingCardsGame.Models
     {
         public static string log;
 
-        public BattleLog() 
+        public BattleLog()
         {
             log = "";
-        }  
+        }
 
         public void LogRound(string round)
         {
