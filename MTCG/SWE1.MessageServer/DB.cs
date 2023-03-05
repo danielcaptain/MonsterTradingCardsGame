@@ -227,7 +227,6 @@ namespace MonsterTradingCardsGame
                                 (default, @c0id, @c1id, @c2id, @c3id, @c4id);";
             using NpgsqlCommand sqlcmd = new(cmd, con);
 
-            // einzeln statt loop
             for (int i = 0; i < 5; i++)
             {
                 sqlcmd.Parameters.AddWithValue("@c" + i + "id",
@@ -247,7 +246,7 @@ namespace MonsterTradingCardsGame
                 sb.Append("id = @guid" + i + " OR ");
             }
 
-            sb.Remove(sb.Length - 4, 4); //Removes the last 4 characters (Space,O,R,Space): " OR "
+            sb.Remove(sb.Length - 4, 4);
             string cmd = sb.ToString();
 
             cmd = string.Format("SELECT id FROM card WHERE {0}", cmd);
@@ -283,7 +282,7 @@ namespace MonsterTradingCardsGame
         {
             bool packageavailable = false;
             Guid[] cardGuids = new Guid[5];
-            int pid = -1;                   //package ID which is 
+            int pid = -1;
 
             string cmd = @"SELECT * FROM cardpackage
                             LIMIT 1;";
@@ -341,7 +340,7 @@ namespace MonsterTradingCardsGame
                     }
                 }
 
-                // Subtract five coins from the user:
+                // Remove 5 coins from Player
                 string updateCoincmd = @"UPDATE player
                                         SET coins = @coins
                                         WHERE name = @name;";

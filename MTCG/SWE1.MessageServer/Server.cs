@@ -188,8 +188,6 @@ namespace MonsterTradingCardsGame
                 {
                     Respond.SendResponse(tcpClient, HttpStatusCode.Created, "Package and cards successfully created");
                 }
-
-
             }
             else
             {
@@ -425,7 +423,6 @@ namespace MonsterTradingCardsGame
                 return;
             }
 
-            // Check At least one of the provided cards does not belong to the user or is not available.
             database.AddCardsToDeck(deckIds, user.Username);
             Respond.SendResponse(tcpClient, HttpStatusCode.OK, "The deck has been successfully configured");
             return;

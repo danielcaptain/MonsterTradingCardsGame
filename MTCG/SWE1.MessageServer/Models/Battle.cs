@@ -16,9 +16,9 @@ namespace MonsterTradingCardsGame.Models
             int scoreUser1 = 0;
             int scoreUser2 = 0;
 
-            List<Card> user1Deck = new List<Card>(); // Fill with User1 Deck
+            List<Card> user1Deck = new List<Card>(); // TODO Fill with User1 Deck
 
-            List<Card> user2Deck = new List<Card>(); // Fill with User2 Deck
+            List<Card> user2Deck = new List<Card>(); // TODO Fill with User2 Deck
 
             // Round 1
             if (Battle.FightCards(user1Deck.First(), user2Deck.First()) == 1)
@@ -88,11 +88,12 @@ namespace MonsterTradingCardsGame.Models
 
         private static int FightCards(Card cardUser1, Card cardUser2)
         {
-            if (true) // cardUser1 wins
+            // TODO let cards fight
+            if (true) // TODO cardUser1 wins
             {
                 return 1;
             }
-            else // cardUser2 wins
+            else // TODO cardUser2 wins
             {
                 return 0;
             }

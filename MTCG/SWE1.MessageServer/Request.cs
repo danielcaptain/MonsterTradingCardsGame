@@ -61,7 +61,6 @@ namespace MonsterTradingCardsGame
                         {
                             SpellCard spellCard = new SpellCard(card.Id, card.Name, card.Damage, Card.CheckElementEnum(card.Name));
                             modifiedCards.Add(spellCard);
-
                         }
                         else
                         {
